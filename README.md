@@ -1,9 +1,13 @@
-# dr_quine
-Several quines in C and possibly ASM :)
+# dr-quine project at École 42
+Quines in C and possibly ASM
+A quine is a program whose output is identical to its source code. That's it :)
+The goal of dr-quine is to create three quines with different constrains.
 
 # First part: Colleen
-A simple quine. It's likely not the shortest one you've seen.
-I've had several constraints, though:
-	1. The source file and its output must be absolutely identical.
-	2. There must be two comments: one inside main() and one in the file scope.
-Did I do good? :)
+A simple one. Just store the source code as a string inside the program.
+
+# Second part: Grace
+A bit more tough. Self-replication must be done with C macros.
+
+# Third part: Sully
+// TODO :)
