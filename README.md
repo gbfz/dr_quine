@@ -1,6 +1,8 @@
 # dr-quine project at École 42
 Quines in C and possibly ASM
+
 A quine is a program whose output is identical to its source code. That's it :)
+
 The goal of dr-quine is to create three quines with different constrains.
 
 # First part: Colleen
