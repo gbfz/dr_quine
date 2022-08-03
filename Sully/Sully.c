@@ -35,6 +35,8 @@ int main()
 	free(line);
 	fclose(kid);
 	fclose(this);
-	system(concat3("gcc ", filename, " -o Sully; ./Sully"));
+	char* cmd = concat3("gcc ", filename, " -o Sully; ./Sully"); 
+	system(cmd);
+	free(cmd);
 	free(filename);
 }
