@@ -1,57 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <string.h>
+#include <sys/stat.h>
 
 char* strdup(const char* s);
 
-char* strjoin(const char* a, const char* b)
+char* concat(const char* a, const char* b)
 {
-	char *result = malloc(strlen(a) + strlen(b) + 1);
-	strcpy(result, a);
-	strcat(result, b);
-	return result;
+	char* c = malloc(strlen(a) + strlen(b) + 1);
+	strcpy(c, a);
+	strcat(c, b);
+	return c;
 }
 
-size_t getFilesize()
+int createFile(const char* filename)
 {
+	FILE* file = fopen(filename, "w");
+	FILE* this = fopen(__FILE__, "r");
+	if (!file || !this)
+		return 0;
 	struct stat st;
 	stat(__FILE__, &st);
-	return st.st_size;
+	char* buf = malloc(st.st_size);
+	if (!buf)
+		return 0;
+	fread(buf, st.st_size, 1, this);
+	fclose(this);
+	fwrite(buf, st.st_size, 1, file);
+	fclose(file);
+	free(buf);
+	return 1;
+}
+
+int exec(const char* filename)
+{
+	if (!createFile(filename))
+		return 0xDEAD;
+	char* cmd0 = concat("clang ", filename);
+	char* cmd = concat(cmd0, " -o Sully; ./Sully");
+	printf("cmd >> %s\n", cmd);
+	free(cmd0);
+	int status = system(cmd);
+	free(cmd);
+	return status;
 }
 
 int main()
 {
-	FILE* thisFile = fopen(__FILE__, "r");
-	size_t size = getFilesize();
-	char* buf = malloc(size);
-	fread(buf, size, 1, thisFile);
-	fclose(thisFile);
-	char* filename = strdup(__FILE__);
-	char* suffix = strrchr(filename, '_');
-	if (suffix) {
-		if (*(suffix + 1) == 0) {
-			free(buf);
-			free(filename);
-			return 0;
-		}
-		*(suffix + 1) -= 1;
+	int status;
+	if (strcmp(__FILE__, "Sully.c")) {
+		char *filename = strdup(__FILE__);
+		filename[6] -= 1;
+		status = exec(filename);
+		free(filename);
 	}
 	else {
-		free(filename);
-		filename = malloc(strlen(__FILE__) + 3);
+		char* filename = malloc(strlen(__FILE__) + 3);
 		strncpy(filename, __FILE__, 5);
 		strcat(filename, "_5.c");
+		status = exec(filename);
+		free(filename);
 	}
-	FILE* kid = fopen(filename, "w");
-	fwrite(buf, size, 1, kid);
-	fclose(kid);
-	free(buf);
-
-	char* cmd_0 = strjoin("clang ", filename);
-	char* cmd = strjoin(cmd_0, "; ./a.out");
-	free(cmd_0);
-	system(cmd);
-
-	free(filename);
+	return status;
 }
