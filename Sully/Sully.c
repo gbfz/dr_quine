@@ -38,7 +38,6 @@ int exec(const char* filename)
 		return 0xDEAD;
 	char* cmd0 = concat("clang ", filename);
 	char* cmd = concat(cmd0, " -o Sully; ./Sully");
-	printf("cmd >> %s\n", cmd);
 	free(cmd0);
 	int status = system(cmd);
 	free(cmd);
@@ -49,6 +48,8 @@ int main()
 {
 	int status;
 	if (strcmp(__FILE__, "Sully.c")) {
+		if (strrchr(__FILE__, '0'))
+			return 0;
 		char *filename = strdup(__FILE__);
 		filename[6] -= 1;
 		status = exec(filename);
