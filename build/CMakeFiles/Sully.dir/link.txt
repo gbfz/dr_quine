@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/Sully.dir/Sully/Sully.c.o -o ../Sully/Sully 

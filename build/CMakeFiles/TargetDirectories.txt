@@ -1,0 +1,5 @@
+/home/mgold/school/dr_quine/build/CMakeFiles/Colleen.dir
+/home/mgold/school/dr_quine/build/CMakeFiles/Grace.dir
+/home/mgold/school/dr_quine/build/CMakeFiles/Sully.dir
+/home/mgold/school/dr_quine/build/CMakeFiles/edit_cache.dir
+/home/mgold/school/dr_quine/build/CMakeFiles/rebuild_cache.dir
